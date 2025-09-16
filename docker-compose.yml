@@ -1,0 +1,43 @@
+version: "3.9"
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    image: demedia-backend:latest
+    environment:
+      - NODE_ENV=production
+      - PORT=5000
+      # Add your backend env here, e.g. DATABASE_URL, JWT_SECRET
+      # - DATABASE_URL=${DATABASE_URL}
+    ports:
+      - "5000:5000"
+    expose:
+      - "5000"
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./demedia
+      dockerfile: Dockerfile
+      args:
+        # Provide the backend URL reachable inside the Docker network
+        NEXT_PUBLIC_API_URL: http://backend:5000
+    image: demedia-frontend:latest
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - NEXT_PUBLIC_API_URL=http://backend:5000
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+networks:
+  default:
+    name: demedia-network
+    driver: bridge
+
+
