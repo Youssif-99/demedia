@@ -2,7 +2,7 @@ import vision from "@google-cloud/vision";
 
 const client = new vision.ImageAnnotatorClient();
 
-async function isImageClean(imageUrl) {
+export async function isImageClean(imageUrl) {
     const [result] = await client.safeSearchDetection(imageUrl);
     const detection = result.safeSearchAnnotation;
 
@@ -15,3 +15,5 @@ async function isImageClean(imageUrl) {
     }
     return true;
 }
+
+export default isImageClean;

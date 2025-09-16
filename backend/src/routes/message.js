@@ -1,5 +1,6 @@
 import express from "express";
 import { PrismaClient } from "@prisma/client";
+import { moderateText } from "../middleware/moderation.js";
 
 const router = express.Router();
 const prisma = new PrismaClient();
@@ -37,7 +38,7 @@ router.get("/:chatId", async (req, res) => {
  * @route   POST /api/messages
  * @desc    Send a message in a chat
  */
-router.post("/", async (req, res) => {
+router.post("/", moderateText, async (req, res) => {
     const { chatId, senderId, content, type } = req.body;
 
     if (!chatId || !senderId || !content) {

@@ -1,5 +1,6 @@
 import express from "express";
 import { prisma } from "../../lib/prisma.js";
+import { moderateText, moderateImage } from "../middleware/moderation.js";
 
 const router = express.Router();
 
@@ -31,7 +32,7 @@ router.get("/", async (req, res) => {
 });
 
 // POST /api/stories - Create a new story (JSON only for now)
-router.post("/", async (req, res) => {
+router.post("/", moderateText, moderateImage, async (req, res) => {
     try {
         const { userId, content, durationHours } = req.body || {};
 

@@ -1,5 +1,6 @@
 import express from "express";
 import { prisma } from "../../lib/prisma.js";
+import { moderateText, moderateImage } from "../middleware/moderation.js";
 
 const router = express.Router();
 
@@ -40,8 +41,8 @@ router.get("/", async (req, res) => {
     }
 });
 
-// POST /api/posts - Create a new post
-router.post("/", async (req, res) => {
+// POST /api/posts - Create a new post (with moderation)
+router.post("/", moderateText, moderateImage, async (req, res) => {
     try {
         const { title, content, authorId } = req.body;
 
