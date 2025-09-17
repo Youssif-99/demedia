@@ -9,27 +9,21 @@ const nextConfig: NextConfig = {
 	},
 	// Enable standalone build output
 	output: "standalone",
+	compress: true,
+	poweredByHeader: false,
 	async rewrites() {
 		const isProd = process.env.NODE_ENV === "production";
 		const backendUrl = process.env.BACKEND_URL;
 
-		// In production, only add proxy rewrites if BACKEND_URL is provided.
-		// If it's not set, we assume the platform routes /api and /socket.io directly on the same domain.
-		if (isProd) {
-			if (!backendUrl) {
-				return [];
-			}
-			return [
-				{ source: "/api/:path*", destination: `${backendUrl}/api/:path*` },
-				{ source: "/socket.io/:path*", destination: `${backendUrl}/socket.io/:path*` },
-			];
-		}
+		// Single-domain model: in production, if BACKEND_URL is not set,
+		// we return no rewrites so the platform ingress must route /api and /socket.io.
+		if (isProd && !backendUrl) return [];
 
-		// Development defaults to localhost:5000 if not provided
-		const devBackend = backendUrl || "http://localhost:5000";
+		// Otherwise, proxy via rewrites (dev or prod with BACKEND_URL set)
+		const target = backendUrl || "http://localhost:5000";
 		return [
-			{ source: "/api/:path*", destination: `${devBackend}/api/:path*` },
-			{ source: "/socket.io/:path*", destination: `${devBackend}/socket.io/:path*` },
+			{ source: "/api/:path*", destination: `${target}/api/:path*` },
+			{ source: "/socket.io/:path*", destination: `${target}/socket.io/:path*` },
 		];
 	},
 };
