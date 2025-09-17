@@ -18,7 +18,12 @@ import initChat from "./src/socket/chat.js";
 const app = express();
 const server = http.createServer(app);
 
-app.use(cors({ origin: "http://localhost:3000", credentials: true }));
+// Environment-driven config for deployments (e.g., Railway)
+const PORT = process.env.PORT || 5000;
+const FRONTEND_ORIGIN = process.env.FRONTEND_ORIGIN || "http://localhost:3000";
+
+app.set("trust proxy", 1);
+app.use(cors({ origin: FRONTEND_ORIGIN, credentials: true }));
 app.use(express.json());
 
 app.use("/api/auth", authRoutes);
@@ -36,8 +41,8 @@ app.use("/api/trending", trendingRoutes);
 app.get("/", (req, res) => res.send("Backend with Chat is running 🚀"));
 
 const io = new Server(server, {
-    cors: { origin: "http://localhost:3000", methods: ["GET", "POST"] },
+    cors: { origin: FRONTEND_ORIGIN, methods: ["GET", "POST"], credentials: true },
 });
 initChat(io);
 
-server.listen(5000, () => console.log("✅ Server running on http://localhost:5000"));
+server.listen(PORT, "0.0.0.0", () => console.log(`✅ Server running on http://0.0.0.0:${PORT}`));
