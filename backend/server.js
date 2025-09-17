@@ -83,3 +83,26 @@ const io = new Server(server, {
 initChat(io);
 
 server.listen(PORT, "0.0.0.0", () => console.log(`✅ Server running on http://0.0.0.0:${PORT}`));
+
+// CORS preflight support for all routes
+app.options("*", cors());
+
+// API 404 handler
+app.use((req, res, next) => {
+	if (req.path.startsWith("/api")) {
+		return res.status(404).json({ error: "Not Found" });
+	}
+	return next();
+});
+
+// Centralized JSON error handler
+// eslint-disable-next-line no-unused-vars
+app.use((err, req, res, next) => {
+	console.error("Unhandled error:", err);
+	if (res.headersSent) {
+		return;
+	}
+	const status = err.status || err.statusCode || 500;
+	const message = status === 500 ? "Internal Server Error" : (err.message || "Error");
+	res.status(status).json({ error: message });
+});

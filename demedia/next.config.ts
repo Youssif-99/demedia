@@ -10,7 +10,10 @@ const nextConfig: NextConfig = {
 	// Enable standalone build output
 	output: "standalone",
 	async rewrites() {
-		const backendUrl = process.env.BACKEND_URL || "http://localhost:5000";
+		const isProd = process.env.NODE_ENV === "production";
+		const backendUrl = isProd
+			? (process.env.BACKEND_URL || "")
+			: (process.env.BACKEND_URL || "http://localhost:5000");
 		return [
 			{
 				source: "/api/:path*",
