@@ -45,6 +45,19 @@ export async function apiFetch(path: string, options: RequestInit = {}, retryCou
   }
 }
 
+export async function readJsonSafe<T = any>(res: Response): Promise<T | { error?: string }> {
+	try {
+		return (await res.json()) as T;
+	} catch (_) {
+		try {
+			const txt = await res.text();
+			return { error: txt || res.statusText };
+		} catch (_) {
+			return { error: res.statusText };
+		}
+	}
+}
+
 interface UserProfileResponse {
     id: number;
     name: string;

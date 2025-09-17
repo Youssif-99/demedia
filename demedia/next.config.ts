@@ -17,6 +17,11 @@ const nextConfig: NextConfig = {
 				// Preserve /api prefix because backend mounts routes under /api/*
 				destination: `${backendUrl}/api/:path*`,
 			},
+			// Proxy Socket.IO as well (same-origin ws)
+			{
+				source: "/socket.io/:path*",
+				destination: `${backendUrl}/socket.io/:path*`,
+			},
 		];
 	},
 };

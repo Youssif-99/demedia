@@ -129,8 +129,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         
         return true;
       } else {
-        const errorData = await res.json();
-        throw new Error(errorData.error || 'Login failed');
+        let message = 'Login failed';
+        try {
+          const txt = await res.text();
+          message = (() => { try { return JSON.parse(txt).error || message; } catch { return txt || message; } })();
+        } catch {}
+        throw new Error(message);
       }
     } catch (error) {
       console.error('Login error:', error);
@@ -161,8 +165,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         
         return true;
       } else {
-        const errorData = await res.json();
-        throw new Error(errorData.error || 'Registration failed');
+        let message = 'Registration failed';
+        try {
+          const txt = await res.text();
+          message = (() => { try { return JSON.parse(txt).error || message; } catch { return txt || message; } })();
+        } catch {}
+        throw new Error(message);
       }
     } catch (error) {
       console.error('Registration error:', error);
