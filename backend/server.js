@@ -23,7 +23,31 @@ const PORT = process.env.PORT || 5000;
 const FRONTEND_ORIGIN = process.env.FRONTEND_ORIGIN || "http://localhost:3000";
 
 app.set("trust proxy", 1);
-app.use(cors({ origin: FRONTEND_ORIGIN, credentials: true }));
+
+const allowedOrigins = [
+	"http://localhost:3000",
+	FRONTEND_ORIGIN,
+];
+
+app.use(
+	cors({
+		origin(origin, callback) {
+			if (!origin) return callback(null, true);
+			if (
+				allowedOrigins.includes(origin) ||
+				/\.railway\.app$/.test(origin)
+			) {
+				return callback(null, true);
+			}
+			return callback(new Error("Not allowed by CORS"));
+		},
+		credentials: true,
+		methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+		allowedHeaders: ["Content-Type", "Authorization"],
+		optionsSuccessStatus: 200,
+	})
+
+);
 app.use(express.json());
 
 app.use("/api/auth", authRoutes);
@@ -41,7 +65,20 @@ app.use("/api/trending", trendingRoutes);
 app.get("/", (req, res) => res.send("Backend with Chat is running 🚀"));
 
 const io = new Server(server, {
-    cors: { origin: FRONTEND_ORIGIN, methods: ["GET", "POST"], credentials: true },
+	cors: {
+		origin(origin, callback) {
+			if (!origin) return callback(null, true);
+			if (
+				allowedOrigins.includes(origin) ||
+				/\.railway\.app$/.test(origin)
+			) {
+				return callback(null, true);
+			}
+			return callback(new Error("Not allowed by CORS"));
+		},
+		methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+		credentials: true,
+	},
 });
 initChat(io);
 
