@@ -49,7 +49,7 @@ export default function Navbar() {
     useEffect(() => {
         const fetchNotifications = async () => {
             try {
-                const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}/api/notifications`, {
+                const res = await fetch(`/api/notifications`, {
                     headers: {
                         'Authorization': `Bearer ${localStorage.getItem('token')}`,
                         'Content-Type': 'application/json',
@@ -70,7 +70,7 @@ export default function Navbar() {
 
         const fetchMessages = async () => {
             try {
-                const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}/api/chat`, {
+                const res = await fetch(`/api/chat`, {
                     headers: {
                         'Authorization': `Bearer ${localStorage.getItem('token')}`,
                         'Content-Type': 'application/json',

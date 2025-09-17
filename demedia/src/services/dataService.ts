@@ -64,7 +64,8 @@ class DataService {
   private API_BASE: string;
 
   constructor() {
-    this.API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+    // Use same-origin relative API path; Next.js rewrite proxies to backend
+    this.API_BASE = "";
   }
 
   private async makeRequest<T>(
@@ -222,7 +223,7 @@ class DataService {
       method: 'POST',
     });
   }
-
+ 
   async deleteComment(commentId: string): Promise<void> {
     await this.makeRequest(`/api/comments/${commentId}`, {
       method: 'DELETE',

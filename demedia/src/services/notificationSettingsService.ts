@@ -31,7 +31,7 @@ class NotificationSettingsService {
   private API_BASE: string;
 
   constructor() {
-    this.API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+    this.API_BASE = "";
   }
 
   private async makeRequest<T>(

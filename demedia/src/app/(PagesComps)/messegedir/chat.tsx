@@ -41,7 +41,7 @@ export default function ChatRoom({ chat, currentUserId }: ChatRoomProps) {
     useEffect(() => {
         const fetchMessages = async () => {
             try {
-                const res = await axios.get(`http://localhost:5000/api/messages/${chat.id}`);
+                const res = await axios.get(`/api/messages/${chat.id}`);
                 setMessages(res.data);
                 scrollToBottom();
             } catch (err) {
@@ -87,7 +87,7 @@ export default function ChatRoom({ chat, currentUserId }: ChatRoomProps) {
             createdAt: new Date().toISOString(),
             status: "sent",
         };
-        await axios.post("http://localhost:5000/api/messages/send", messageData);
+        await axios.post(`/api/messages/send`, messageData);
         socket.emit("sendMessage", messageData);
         setMessages((prev) => [...prev, messageData]);
         setNewMessage("");
@@ -121,7 +121,7 @@ export default function ChatRoom({ chat, currentUserId }: ChatRoomProps) {
         const formData = new FormData();
         formData.append("file", file);
 
-        const res = await axios.post("http://localhost:5000/api/messages/upload", formData, {
+        const res = await axios.post(`/api/messages/upload`, formData, {
             headers: { "Content-Type": "multipart/form-data" },
         });
 

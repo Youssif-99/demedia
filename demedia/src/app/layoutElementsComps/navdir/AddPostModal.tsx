@@ -69,7 +69,7 @@ export default function AddPostModal({ isOpen, onClose, authorId }: AddPostModal
     useEffect(() => {
         const fetchSuggestedUsers = async () => {
             try {
-                const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}/api/suggestions/users`, {
+                const response = await fetch(`/api/suggestions/users`, {
                     headers: {
                         'Authorization': `Bearer ${localStorage.getItem('token')}`,
                         'Content-Type': 'application/json',
@@ -171,7 +171,7 @@ export default function AddPostModal({ isOpen, onClose, authorId }: AddPostModal
                 authorId: parseInt(userId),
             };
 
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}/api/posts`, {
+            const res = await fetch(`/api/posts`, {
                 method: "POST",
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem('token')}`,

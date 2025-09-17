@@ -1,6 +1,6 @@
 export type HttpMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+const API_BASE = ""; // same-origin; Next.js rewrite proxies /api to backend
 
 function delay(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -66,12 +66,7 @@ interface UserProfileResponse {
 
 export async function getUserProfile(userId: string | number): Promise<UserProfileResponse | null> {
     try {
-        const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-        if (!apiUrl) {
-            throw new Error("NEXT_PUBLIC_API_URL environment variable is not set");
-        }
-
-        const res = await fetch(`${apiUrl}/api/user/${userId}/profile`, {
+        const res = await fetch(`/api/user/${userId}/profile`, {
             cache: "no-store", // عشان ما يكاشي
         });
 

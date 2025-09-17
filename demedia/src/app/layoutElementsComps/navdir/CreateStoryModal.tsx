@@ -78,7 +78,7 @@ export default function CreateStoryModal({ isOpen, onClose }: CreateStoryModalPr
     useEffect(() => {
         const fetchSuggestedUsers = async () => {
             try {
-                const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}/api/suggestions/users`, {
+                const response = await fetch(`/api/suggestions/users`, {
                     headers: {
                         'Authorization': `Bearer ${localStorage.getItem('token')}`,
                         'Content-Type': 'application/json',
@@ -146,7 +146,7 @@ export default function CreateStoryModal({ isOpen, onClose }: CreateStoryModalPr
                 return;
             }
 
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}/api/stories`, {
+            const res = await fetch(`/api/stories`, {
                 method: "POST",
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem('token')}`,

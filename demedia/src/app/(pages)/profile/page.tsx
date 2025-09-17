@@ -126,8 +126,8 @@ export default function ProfilePage({ userId }: ProfilePageProps) {
 
         try {
             const endpoint = prevIsFollowing
-                ? `${process.env.NEXT_PUBLIC_API_URL}/api/user/${profile.id}/unfollow`
-                : `${process.env.NEXT_PUBLIC_API_URL}/api/user/${profile.id}/follow`;
+                ? `/api/user/${profile.id}/unfollow`
+                : `/api/user/${profile.id}/follow`;
 
             const res = await fetch(endpoint, { 
                 method: "POST",

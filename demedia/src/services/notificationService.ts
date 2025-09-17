@@ -143,7 +143,7 @@ class NotificationService {
   // Send subscription to server
   async sendSubscriptionToServer(subscription: PushSubscription): Promise<boolean> {
     try {
-      const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+      const API_BASE = "";
       const userId = localStorage.getItem('userId');
       
       if (!userId) {

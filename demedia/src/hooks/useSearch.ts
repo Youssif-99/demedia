@@ -36,13 +36,13 @@ export const useSearch = () => {
     
     try {
       const [usersRes, postsRes] = await Promise.all([
-        fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}/api/search/users?q=${encodeURIComponent(query)}`, {
+        fetch(`/api/search/users?q=${encodeURIComponent(query)}`, {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`,
             'Content-Type': 'application/json',
           },
         }),
-        fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}/api/search/posts?q=${encodeURIComponent(query)}`, {
+        fetch(`/api/search/posts?q=${encodeURIComponent(query)}`, {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`,
             'Content-Type': 'application/json',

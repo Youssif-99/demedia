@@ -150,7 +150,7 @@ export default function InterestsPage() {
                 throw new Error("User not authenticated");
             }
 
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}/api/users/${userId}/interests`, {
+            const res = await fetch(`/api/users/${userId}/interests`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ interests: selected, age: parseInt(age) }),

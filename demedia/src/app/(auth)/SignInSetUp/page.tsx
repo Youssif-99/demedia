@@ -187,7 +187,7 @@ export default function SignInSetUp() {
                 throw new Error("User not authenticated");
             }
 
-            const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+            const API_BASE = "";
 
             const token = typeof window !== 'undefined' ? localStorage.getItem("token") : null;
             const res = await fetch(`${API_BASE}/api/users/${userId}/profile`, {

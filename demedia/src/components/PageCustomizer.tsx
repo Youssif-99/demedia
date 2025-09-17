@@ -70,8 +70,7 @@ export const PageCustomizer: React.FC<PageCustomizerProps> = ({ isOpen, onClose 
       // Save to backend
       const userId = localStorage.getItem('userId');
       if (userId) {
-        const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
-        await fetch(`${API_BASE}/api/user/${userId}/customization`, {
+        await fetch(`/api/user/${userId}/customization`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
