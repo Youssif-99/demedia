@@ -54,7 +54,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/chat", chatRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/users", usersRoutes);
-app.use("/api/message", messageRoutes);
+app.use("/api/messages", messageRoutes);
 app.use("/api/stories", storiesRoutes);
 app.use("/api/posts", postsRoutes);
 app.use("/api/hashtags", hashtagsRoutes);
