@@ -18,11 +18,11 @@ export const AuthGuard: React.FC<AuthGuardProps> = ({ children }) => {
 
     const authPages = ['/sign-in', '/sign-up'];
     const setupPages = ['/SignInSetUp', '/interests', '/FinishSetup'];
-    const protectedPages = ['/home', '/profile', '/messaging'];
+    const protectedPrefixes = ['/home', '/profile', '/messaging', '/messeging'];
 
     const isAuthPage = authPages.includes(pathname);
     const isSetupPage = setupPages.includes(pathname);
-    const isProtectedPage = protectedPages.includes(pathname);
+    const isProtectedPage = protectedPrefixes.some(p => pathname.startsWith(p));
 
     if (!isAuthenticated) {
       // Not authenticated - redirect to sign-up unless on auth pages
